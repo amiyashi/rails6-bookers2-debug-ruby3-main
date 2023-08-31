@@ -8,6 +8,10 @@
     <%= f.text_area :body, class: 'form-control book_body' %>
   </div>
   <div class="form-group">
-    <%= f.submit class: 'btn btn-success' %>
+    <% if f.object.new_record? %>
+      <%= f.submit 'Create Book', class: 'btn btn-success' %>
+    <% else %>
+      <%= f.submit 'Update Book' %>
+    <% end %>
   </div>
 <% end %>
