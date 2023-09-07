@@ -33,3 +33,18 @@
     <% end %>
   <% end %>
 </div>
+
+  <% unless user.id == current_user.id %>
+    <% if (current_user.following? user) && (user.following? current_user) %>
+    <% if @is_room == true %>
+      <p class="user-show-room"><a href="/rooms/<%= room_id %>" class="btn btn-primary btn-sm">chatを送る</a></p>
+  <% else %>
+    <%= form_for room do |f| %>
+      <%= fields_for entry do |entry| %>
+        <%= entry.hidden_field :user_id, value: user.id %>
+      <% end %>
+      <%= f.submit "chatをはじめる", class:"btn btn-primary btn-lg user-show-chat" %>
+    <% end %>
+  <% end %>
+  <% end %>
+<% end %>
