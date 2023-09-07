@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :followers, through: :reverse_of_relationships, source: :follower
   has_many :entries, dependent: :destroy
   has_many :messages, dependent: :destroy
+  # has_many :rooms, through: :entries
   has_many :read_counts, dependent: :destroy
 
   def follow(user_id)

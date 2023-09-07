@@ -1,10 +1,11 @@
 class UsersController < ApplicationController
-  before_action :ensure_correct_user, only: [:show, :edit, :update]
+  before_action :authenticate_user!
+  before_action :ensure_correct_user, only: [:edit, :update]
 
   def show
     @user = User.find(params[:id])
-    @currentUserEntry=Entry.where(user_id: current_user.id)
-    @anotherUserEntry=Entry.where(user_id: @user.id)
+    currentUserEntry=Entry.where(user_id: current_user.id)
+    anotherUserEntry=Entry.where(user_id: @user.id)
     unless @user.id == current_user.id
       @currentUserEntry.each do |current|
         @anotherUserEntry.each do |another|
@@ -20,8 +21,8 @@ class UsersController < ApplicationController
         @entry = Entry.new
       end
     end
-    @books = @user.books
     @book = Book.new
+    @books = @user.books
   end
 
   def index
