@@ -4,21 +4,21 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    currentUserEntry=Entry.where(user_id: current_user.id)
-    anotherUserEntry=Entry.where(user_id: @user.id)
-    unless @user.id == current_user.id
-      @currentUserEntry.each do |current|
-        @anotherUserEntry.each do |another|
-          if current.room_id == another.room_id then
-            @is_room = true
-            @room_id = current.room_id
+    @currentUserEntry = Entry.where(user_id: current_user.id) #現在ログインしているユーザーの全Entryデータを取得
+    @anotherUserEntry=Entry.where(user_id: @user.id) #相手のユーザーの全Entryデータ取得
+    unless @user.id == current_user.id #相手と自分(ログインしてる)を区別して、自分じゃなかったとき
+      @currentUserEntry.each do |current| #現在ログインしているユーザーの全Entryデータを1つずつ取り出すす
+        @anotherUserEntry.each do |another| #相手の全Entryデータを1つずつ取り出す
+          if current.room_id == another.room_id then #自分(ログインしてる)のEntryデータのうち、room_idが相手のEntryデータの持つroom_idと同じとき
+            @is_room = true #自分(ログインしてる)と相手の共通のRoomがある
+            @room_id = current.room_id #自分と相手の共通のroom_idを代入
           end
         end
       end
       if @is_room
-      else
-        @room = Room.new
-        @entry = Entry.new
+      else #共通のRoomが無かったら
+        @room = Room.new #新しいRoomと
+        @entry = Entry.new #新しいEntryを作成
       end
     end
     @book = Book.new
