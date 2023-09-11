@@ -5,20 +5,6 @@
   <% else %>
     <%= link_to "フォローする", user_relationships_path(user.id), method: :post, class: options[:class].presence || "btn btn-success" %>
   <% end %>
-  
-  <% if (current_user.following? user) && (user.following? current_user) %> <!--#相互フォローしることが条件-->
-    
-    <% if is_room == true %> <!--#すでにRoomがあるなら-->
-      <%= link_to "チャットへ",  room_path(room_id), class: "btn btn-primary" %>
-    <% else %>
-      <% form_with model: room, local: true do |f| %> <!--#RoomとEntryの2つのモデルにデータを送る-->
-        <% fields_for entry do |e| %>
-          <%= e.hidden_field:user_id, value: user.id %> <!--#Entryにはuser_idを送る必要があるので、@user.idを指定-->
-        <% end %>
-        <%= f.submit "チャットを始める", class: "btn btn-primary user-show-chat" %>
-      <% end %>
-    <% end %>
-    
-  <% end %>
-  
+
+
 <% end %>

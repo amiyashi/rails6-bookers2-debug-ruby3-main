@@ -27,6 +27,21 @@
 <div class='row'>
   <% if current_user != user %> ?
     <td><%= render "relationships/followbtn", user: user, options: { class: ""} %></td>
+    
+    <% unless user.id == current_user.id %>
+      <% if (current_user.following? user) && (user.following? current_user) %> <!--#相互フォローしることが条件-->
+        <% if is_room == true %> <!--#すでにRoomがあるなら-->
+          <p class="user-show-room"><a href="/rooms/<%= room_id %>" >チャットへ</a>
+        <% else %>
+          <% form_with model: room do |f| %> <!--#RoomとEntryの2つのモデルにデータを送る-->
+            <% fields_for entry do |e| %>
+              <%= e.hidden_field:user_id, value: user.id %> <!--#Entryにはuser_idを送る必要があるので、@user.idを指定-->
+            <% end %>
+            <%= f.submit "チャットを始める" %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
 
   <% else %>
     <%= link_to edit_user_path(user), class: "btn btn-outline-secondary btn-block" do %>
