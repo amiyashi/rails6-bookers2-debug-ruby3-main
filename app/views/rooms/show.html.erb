@@ -17,8 +17,8 @@
       <% if @messages.present? %>
       　<% @messages.each do |message| %>
       　　  <tr>
-            <td><%= m.user.name %></td>
-            <td><%= m.message %></td>
+            <td><%= message.user.name %></td>
+            <td><%= message.message %></td>
           </tr>
         <% end %>
       <% end %>
